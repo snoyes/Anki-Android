@@ -71,7 +71,6 @@ import com.ichi2.async.DeckTask;
 import com.ichi2.compat.CompatHelper;
 import com.ichi2.libanki.Card;
 import com.ichi2.libanki.Collection;
-import com.ichi2.libanki.Consts;
 import com.ichi2.libanki.Note;
 import com.ichi2.libanki.Utils;
 import com.ichi2.themes.StyledProgressDialog;
@@ -1713,17 +1712,8 @@ public class NoteEditor extends AnkiActivity {
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
             // Adding the cloze deletion floating context menu item, but only once.
-            boolean isClozeType, itemExists;
-            int noteModelType;
-            try {
-                noteModelType = getCurrentlySelectedModel().getInt("type");
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
-            }
-            isClozeType = noteModelType == Consts.MODEL_CLOZE;
-            itemExists = menu.findItem(mMenuId) != null;
-            if (isClozeType && !itemExists) {
-                menu.add(Menu.NONE, mMenuId, 0, R.string.multimedia_editor_popup_cloze);
+            if (menu.findItem(mMenuId) == null) {
+                menu.add(Menu.NONE, mMenuId, Menu.NONE, R.string.multimedia_editor_popup_cloze);
                 return true;
             } else {
                 return false;
